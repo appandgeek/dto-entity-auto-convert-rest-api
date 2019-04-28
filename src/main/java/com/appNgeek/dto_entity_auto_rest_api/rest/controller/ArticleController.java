@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.appNgeek.dto_entity_auto_rest_api.annotation.RequestBodyDTO;
-import com.appNgeek.dto_entity_auto_rest_api.annotation.ResponseBodyDTO;
+import com.appNgeek.dto_entity_auto_rest_api.convertor.annotation.RequestBodyDTO;
+import com.appNgeek.dto_entity_auto_rest_api.convertor.annotation.ResponseBodyDTO;
 import com.appNgeek.dto_entity_auto_rest_api.domain.Article;
 import com.appNgeek.dto_entity_auto_rest_api.dto.ArticleDTO;
 import com.appNgeek.dto_entity_auto_rest_api.exception.BlogAppException;

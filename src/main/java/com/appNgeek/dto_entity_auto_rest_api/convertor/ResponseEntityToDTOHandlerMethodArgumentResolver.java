@@ -12,7 +12,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
-import com.appNgeek.dto_entity_auto_rest_api.annotation.ResponseBodyDTO;
+import com.appNgeek.dto_entity_auto_rest_api.convertor.annotation.ResponseBodyDTO;
 import com.appNgeek.dto_entity_auto_rest_api.domain.Article;
 import com.appNgeek.dto_entity_auto_rest_api.dto.ArticleDTO;
 

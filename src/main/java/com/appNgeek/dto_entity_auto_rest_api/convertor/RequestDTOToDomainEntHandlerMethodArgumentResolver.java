@@ -6,8 +6,6 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.MethodParameter;
@@ -22,7 +20,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
-import com.appNgeek.dto_entity_auto_rest_api.annotation.RequestBodyDTO;
+import com.appNgeek.dto_entity_auto_rest_api.convertor.annotation.RequestBodyDTO;
 import com.appNgeek.dto_entity_auto_rest_api.domain.Article;
 import com.appNgeek.dto_entity_auto_rest_api.domain.User;
 import com.appNgeek.dto_entity_auto_rest_api.dto.ArticleDTO;
