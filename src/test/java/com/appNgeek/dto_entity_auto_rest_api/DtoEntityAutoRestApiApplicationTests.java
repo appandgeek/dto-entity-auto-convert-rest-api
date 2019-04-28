@@ -1,4 +1,4 @@
-package com.appNgeek.dtoentityautorestapi;
+package com.appNgeek.dto_entity_auto_rest_api;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
