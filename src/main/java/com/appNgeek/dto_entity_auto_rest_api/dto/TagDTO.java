@@ -9,11 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleDTO extends BaseEntityDTO {
+public class TagDTO extends BaseEntityDTO {
 
-	private String title;
+	private String name;
 
-	private String body;
-
-	private Long userId;
 }

@@ -1,5 +1,6 @@
 package com.appNgeek.dto_entity_auto_rest_api.rest.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +34,25 @@ public class ArticleController {
 	private ArticleRepository articleRepository;
 
 	@GetMapping
+	@ResponseBodyDTO(ArticleDTO.class)
 	public Page<Article> findAll(Pageable pageable) {
 		return articleRepository.findAll(pageable);
 	}
+	
+	@GetMapping("/list")
+	@ResponseBodyDTO(ArticleDTO.class)
+	public List<Article> findAllAsList(Pageable pageable) {
+		return articleRepository.findAll(pageable).getContent();
+	}
 
 	@GetMapping("/find")
+	@ResponseBodyDTO(ArticleDTO.class)
 	public Article findByTitle(@RequestParam String title) {
 		return articleRepository.findByTitle(title);
 	}
 
 	@GetMapping("/{id}")
+	@ResponseBodyDTO(ArticleDTO.class)
 	public Article findOne(@PathVariable Long id) throws BlogAppException {
 		Optional<Article> result = articleRepository.findById(id);
 		if (result.isPresent())
@@ -61,6 +71,7 @@ public class ArticleController {
 	}
 
 	@DeleteMapping("/{id}")
+	@ResponseBodyDTO(ArticleDTO.class)	
 	public void delete(@PathVariable Long id) {
 		articleRepository.deleteById(id);
 	}

@@ -1,4 +1,4 @@
-package com.appNgeek.dto_entity_auto_rest_api.convertor;
+package com.appNgeek.dto_entity_auto_rest_api.convertor.handler;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -31,10 +32,13 @@ public final class RequestDTOToDomainEntHandlerMethodArgumentResolver extends Re
 
 	private final ApplicationContext applicationContext;
 
+	private final ConversionService conversionService;
+
 	@Autowired
 	public RequestDTOToDomainEntHandlerMethodArgumentResolver(ObjectMapper objectMapper, ApplicationContext applicationContext) {
 		super(Collections.singletonList(new MappingJackson2HttpMessageConverter(objectMapper)));
 		this.applicationContext = applicationContext;
+		this.conversionService = this.applicationContext.getBean(ConversionService.class);
 	}
 
 	@Override
@@ -51,12 +55,11 @@ public final class RequestDTOToDomainEntHandlerMethodArgumentResolver extends Re
 	public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer,
 			NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
 		Object obj = super.resolveArgument(methodParameter, modelAndViewContainer, nativeWebRequest, webDataBinderFactory);
-		if (obj instanceof ArticleDTO) {
-			ArticleDTO articleDTO = (ArticleDTO) obj;
-			UserRepository userRepository = applicationContext.getBean(UserRepository.class);
-			Optional<User> user = userRepository.findById(articleDTO.getUserId());
-			Article article = new Article(articleDTO.getTitle(), articleDTO.getBody(), user.get(), null);
-			return article;
+		Class<?> requestDTOType = getRequestBodyDTOType(methodParameter);
+		Class<?> entityType = methodParameter.getParameterType();
+		if (conversionService.canConvert(requestDTOType, entityType)) {
+			Object entity = conversionService.convert(obj, entityType);
+			return entity;
 		} else
 			return obj;
 	}
@@ -71,6 +74,16 @@ public final class RequestDTOToDomainEntHandlerMethodArgumentResolver extends Re
 			}
 		}
 		throw new RuntimeException();
+	}
+
+	private Class getRequestBodyDTOType(MethodParameter parameter) {
+		for (Annotation ann : parameter.getParameterAnnotations()) {
+			RequestBodyDTO requestBodyDTO = AnnotationUtils.getAnnotation(ann, RequestBodyDTO.class);
+			if (requestBodyDTO != null) {
+				return requestBodyDTO.value();
+			}
+		}
+		return null;
 	}
 
 }
